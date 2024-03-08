@@ -5,6 +5,8 @@ using UnityEngine.XR;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] GameManager gameManager;
+
     private Rigidbody2D rb;
     private Vector2 movement;
     [SerializeField] private float movementSpeed;
@@ -25,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        gameManager = GetComponentInParent<GameManager>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -74,8 +77,12 @@ public class PlayerController : MonoBehaviour
     //method that handles logic around player inputs
     private void HandleInputs()
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
+
+        if (gameManager.gameState != GameManager.GameState.Paused)
+        {
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
+        }
 
         if ((movement.x < 1f && movement.x > -1f) && (movement.y < 1f && movement.y > -1f))
         {

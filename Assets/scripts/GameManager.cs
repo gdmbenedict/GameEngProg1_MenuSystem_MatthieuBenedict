@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UIManager;
@@ -27,6 +26,11 @@ public class GameManager : MonoBehaviour
 
     public GameState gameState;
 
+    [Header("Player")]
+    public GameObject player;
+    private SpriteRenderer playerSpriteRenderer;
+    private PlayerController playerController;
+
     //sets default state for the game manager
     public void Awake()
     {
@@ -34,8 +38,13 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
+        //getting managers
         levelManager = FindObjectOfType<LevelManager>();
         uiManager = FindObjectOfType<UIManager>();
+
+        //grabing player details
+        playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
+        playerController = player.GetComponent<PlayerController>();
 
         gameState = GameState.MainMenu;
         ChangeGameState(GameState.MainMenu);
@@ -53,6 +62,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         UpdateState();
+        EscapeInput();
     }
 
     public void ChangeGameState(GameState newGameState)
@@ -150,6 +160,10 @@ public class GameManager : MonoBehaviour
     private void EnterMainMenuState()
     {
         uiManager.ChangeScreen(ScreenState.MainMenu);
+
+        //turning off player
+        playerSpriteRenderer.enabled = false;
+        playerController.enabled = false;
     }
 
     private void UpdateMainMenuState()
@@ -164,10 +178,20 @@ public class GameManager : MonoBehaviour
 
     private void EnterGamePlayState()
     {
-        levelManager.MoveToGameplay();
-        uiManager.ChangeScreen(ScreenState.GamePlayHUD);
+        if (levelManager.IsInGameplayScene())
+        {
+            uiManager.ChangeScreen(ScreenState.GamePlayHUD);
+        }
+        else
+        {
+            levelManager.ChangeScene("Gameplay_Village1");
+        }
+    
         Time.timeScale = 1;
 
+        //turning on player
+        playerSpriteRenderer.enabled = true;
+        playerController.enabled = true;
     }
 
     private void UpdateGamePlayState()
@@ -178,10 +202,14 @@ public class GameManager : MonoBehaviour
     private void ExitGamePlayState()
     {
         Time.timeScale = 0;
+
     }
 
     private void EnterPausedState()
     {
+        //turning off player controls
+        playerController.enabled = false;
+
         uiManager.ChangeScreen(ScreenState.PauseMenu);
     }
 
@@ -212,6 +240,10 @@ public class GameManager : MonoBehaviour
 
     private void EnterGameOverState()
     {
+        //turning off player
+        playerSpriteRenderer.enabled = false;
+        playerController.enabled = false;
+
         uiManager.ChangeScreen(ScreenState.GameOverScreen);
     }
 
@@ -227,6 +259,10 @@ public class GameManager : MonoBehaviour
 
     private void EnterGameWinState()
     {
+        //turning off player
+        playerSpriteRenderer.enabled = false;
+        playerController.enabled = false;
+
         uiManager.ChangeScreen(ScreenState.GameWinScreen);
     }
 
@@ -301,14 +337,13 @@ public class GameManager : MonoBehaviour
     //Returns to MainMenu
     public void MainMenuButton()
     {
-        levelManager.MoveToMainMenu();
+        levelManager.ChangeScene("MainMenu");
     }
 
     private void EscapeInput()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Debug.Log("escape pressed");
             BackButton();
         }
     }

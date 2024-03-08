@@ -31,23 +31,22 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void MoveToGameplay()
+    public bool IsInGameplayScene()
     {
         Scene scene = SceneManager.GetActiveScene();
 
-        if (!scene.name.StartsWith("Gameplay"))
+        if (scene.name.StartsWith("Gameplay"))
         {
-            SceneManager.LoadScene("Gameplay_Village1");
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
-    public void MoveToEndScreen()
+    public void ChangeScene(string sceneName)
     {
-        SceneManager.LoadScene("EndScene");
-    }
-
-    public void MoveToMainMenu()
-    {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(sceneName);
     }
 }
