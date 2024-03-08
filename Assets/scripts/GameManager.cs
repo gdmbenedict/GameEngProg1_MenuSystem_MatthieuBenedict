@@ -65,6 +65,35 @@ public class GameManager : MonoBehaviour
         EscapeInput();
     }
 
+    //events system
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SetUI();
+
+        if (levelManager.IsInGameplayScene())
+        {
+            //turning on player
+            playerSpriteRenderer.enabled = true;
+            playerController.enabled = true;
+        }
+        else
+        {
+            //turning off player
+            playerSpriteRenderer.enabled = false;
+            playerController.enabled = false;
+        }
+    }
+
     public void ChangeGameState(GameState newGameState)
     {
         //Finish current State
@@ -95,8 +124,10 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
+        gameState = newGameState;
+
         //Start next state
-        switch (newGameState)
+        switch (gameState)
         {
             case GameState.MainMenu:
                 EnterMainMenuState();
@@ -123,7 +154,6 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        gameState = newGameState;
     }
 
     private void UpdateState()
@@ -181,6 +211,10 @@ public class GameManager : MonoBehaviour
         if (levelManager.IsInGameplayScene())
         {
             uiManager.ChangeScreen(ScreenState.GamePlayHUD);
+
+            //turning on player
+            playerSpriteRenderer.enabled = true;
+            playerController.enabled = true;
         }
         else
         {
@@ -189,9 +223,7 @@ public class GameManager : MonoBehaviour
     
         Time.timeScale = 1;
 
-        //turning on player
-        playerSpriteRenderer.enabled = true;
-        playerController.enabled = true;
+        
     }
 
     private void UpdateGamePlayState()
@@ -345,6 +377,36 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             BackButton();
+        }
+    }
+
+    private void SetUI()
+    {
+        switch (gameState)
+        {
+            case GameState.MainMenu:
+                uiManager.ChangeScreen(ScreenState.MainMenu);
+                break;
+
+            case GameState.Gameplay:
+                uiManager.ChangeScreen(ScreenState.GamePlayHUD);
+                break;
+
+            case GameState.Paused:
+                uiManager.ChangeScreen(ScreenState.PauseMenu);
+                break;
+
+            case GameState.GameOver:
+                uiManager.ChangeScreen(ScreenState.GameOverScreen);
+                break;
+
+            case GameState.GameWin:
+                uiManager.ChangeScreen(ScreenState.GameWinScreen);
+                break;
+
+            case GameState.Options:
+                uiManager.ChangeScreen(ScreenState.OptionsMenu);
+                break;
         }
     }
 
