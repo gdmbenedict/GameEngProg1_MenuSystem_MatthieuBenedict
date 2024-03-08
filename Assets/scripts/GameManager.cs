@@ -34,88 +34,239 @@ public class GameManager : MonoBehaviour
 
         gameState = GameState.MainMenu;
 
-        levelManager = FindObjectOfType<LevelManager>();
-        uiManager = FindObjectOfType<UIManager>();
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        levelManager = FindObjectOfType<LevelManager>();
+        uiManager = FindObjectOfType<UIManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateState();
     }
 
     public void ChangeGameState(GameState newGameState)
-    {
-        //finished current game state, updates the game state and starts the new processes
-        FinishGameState();
-        gameState = newGameState;
-        StartGameState();
-    }
-
-    private void FinishGameState()
     {
         //Finish current State
         switch (gameState)
         {
             case GameState.MainMenu:
+                ExitMainMenuState();
                 break;
 
             case GameState.Gameplay:
+                ExitGamePlayState();
                 break;
 
             case GameState.Paused:
+                ExitPausedState();
                 break;
 
             case GameState.Options:
+                ExitOptionsState();
                 break;
 
             case GameState.GameOver:
+                ExitGameOverState();
                 break;
 
             case GameState.GameWin:
+                ExitGameWinState();
                 break;
         }
+
+        //Start next state
+        switch (newGameState)
+        {
+            case GameState.MainMenu:
+                EnterMainMenuState();
+                break;
+
+            case GameState.Gameplay:
+                EnterGamePlayState();
+                break;
+
+            case GameState.Paused:
+                EnterPausedState();
+                break;
+
+            case GameState.Options:
+                EnterOptionsState();
+                break;
+
+            case GameState.GameOver:
+                EnterGameOverState();
+                break;
+
+            case GameState.GameWin:
+                EnterGameWinState();
+                break;
+        }
+
+        gameState = newGameState;
     }
 
-
-    private void StartGameState()
+    private void UpdateState()
     {
-        //Start new Game State
         switch (gameState)
         {
             case GameState.MainMenu:
-                uiManager.ChangeSceen(ScreenState.MainMenu);
+                UpdateMainMenuState();
                 break;
 
             case GameState.Gameplay:
-                uiManager.ChangeSceen(ScreenState.GamePlayHUD);
+                UpdateGamePlayState();
                 break;
 
             case GameState.Paused:
-                uiManager.ChangeSceen(ScreenState.PauseMenu);
+                UpdatePausedState();
                 break;
 
             case GameState.Options:
-                uiManager.ChangeSceen(ScreenState.OptionsMenu);
+                UpdateOptionsState();
                 break;
 
             case GameState.GameOver:
-                uiManager.ChangeSceen(ScreenState.GameOverScreen);
+                UpdateGameOverState();
                 break;
 
             case GameState.GameWin:
-                uiManager.ChangeSceen(ScreenState.GameWinScreen);
+                UpdateGameWinState();
                 break;
         }
     }
 
+    
+    private void EnterMainMenuState()
+    {
 
+    }
+
+    private void UpdateMainMenuState()
+    {
+
+    }
+
+    private void ExitMainMenuState()
+    {
+
+    }
+
+    private void EnterGamePlayState()
+    {
+
+    }
+
+    private void UpdateGamePlayState()
+    {
+
+    }
+
+    private void ExitGamePlayState()
+    {
+
+    }
+
+    private void EnterPausedState()
+    {
+
+    }
+
+    private void UpdatePausedState()
+    {
+
+    }
+
+    private void ExitPausedState()
+    {
+
+    }
+
+    private void EnterOptionsState()
+    {
+
+    }
+
+    private void UpdateOptionsState()
+    {
+
+    }
+
+    private void ExitOptionsState()
+    {
+
+    }
+
+    private void EnterGameOverState()
+    {
+
+    }
+
+    private void UpdateGameOverState()
+    {
+
+    }
+
+    private void ExitGameOverState()
+    {
+
+    }
+
+    private void EnterGameWinState()
+    {
+
+    }
+
+    private void UpdateGameWinState()
+    {
+
+    }
+
+    private void ExitGameWinState()
+    {
+
+    }
+
+    //Button Functions
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    //Options Button
+    public void OptionsButton()
+    {
+        ChangeGameState(GameState.Options);
+    }
+
+    //Back Button
+    public void BackButton()
+    {
+        switch (gameState)
+        {
+            case GameState.MainMenu:
+                break;
+
+            case GameState.Gameplay:
+                break;
+
+            case GameState.Paused:
+                break;
+
+            case GameState.GameOver:
+                break;
+
+            case GameState.GameWin:
+                break;
+
+            case GameState.Options: 
+                break;
+        }
+    }
 
 }
