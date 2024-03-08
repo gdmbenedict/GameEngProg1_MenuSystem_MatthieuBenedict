@@ -244,27 +244,42 @@ public class GameManager : MonoBehaviour
         ChangeGameState(GameState.Options);
     }
 
-    //Back Button
+    //Back Button (also used for escape key functionality
     public void BackButton()
     {
         switch (gameState)
         {
             case GameState.MainMenu:
+                QuitGame();
                 break;
 
             case GameState.Gameplay:
+                ChangeGameState(GameState.Paused);
                 break;
 
             case GameState.Paused:
+                ChangeGameState(GameState.Gameplay);
                 break;
 
             case GameState.GameOver:
+                ChangeGameState(GameState.MainMenu);
                 break;
 
             case GameState.GameWin:
+                ChangeGameState(GameState.MainMenu);
                 break;
 
-            case GameState.Options: 
+            case GameState.Options:
+
+                if (levelManager.IsMainMenu())
+                {
+                    ChangeGameState(GameState.MainMenu);
+                }
+                else
+                {
+                    ChangeGameState(GameState.Paused);
+                }
+
                 break;
         }
     }
