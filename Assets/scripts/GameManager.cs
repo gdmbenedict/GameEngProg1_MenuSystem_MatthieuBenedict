@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UIManager;
 
 public class GameManager : MonoBehaviour
@@ -32,7 +34,11 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
+        levelManager = FindObjectOfType<LevelManager>();
+        uiManager = FindObjectOfType<UIManager>();
+
         gameState = GameState.MainMenu;
+        ChangeGameState(GameState.MainMenu);
 
     }
 
@@ -40,8 +46,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        levelManager = FindObjectOfType<LevelManager>();
-        uiManager = FindObjectOfType<UIManager>();
+        
     }
 
     // Update is called once per frame
@@ -144,7 +149,7 @@ public class GameManager : MonoBehaviour
     
     private void EnterMainMenuState()
     {
-
+        uiManager.ChangeScreen(ScreenState.MainMenu);
     }
 
     private void UpdateMainMenuState()
@@ -159,6 +164,9 @@ public class GameManager : MonoBehaviour
 
     private void EnterGamePlayState()
     {
+        levelManager.MoveToGameplay();
+        uiManager.ChangeScreen(ScreenState.GamePlayHUD);
+        Time.timeScale = 1;
 
     }
 
@@ -169,12 +177,12 @@ public class GameManager : MonoBehaviour
 
     private void ExitGamePlayState()
     {
-
+        Time.timeScale = 0;
     }
 
     private void EnterPausedState()
     {
-
+        uiManager.ChangeScreen(ScreenState.PauseMenu);
     }
 
     private void UpdatePausedState()
@@ -189,7 +197,7 @@ public class GameManager : MonoBehaviour
 
     private void EnterOptionsState()
     {
-
+        uiManager.ChangeScreen(ScreenState.OptionsMenu);
     }
 
     private void UpdateOptionsState()
@@ -204,12 +212,12 @@ public class GameManager : MonoBehaviour
 
     private void EnterGameOverState()
     {
-
+        uiManager.ChangeScreen(ScreenState.GameOverScreen);
     }
 
     private void UpdateGameOverState()
     {
-
+        
     }
 
     private void ExitGameOverState()
@@ -219,7 +227,7 @@ public class GameManager : MonoBehaviour
 
     private void EnterGameWinState()
     {
-
+        uiManager.ChangeScreen(ScreenState.GameWinScreen);
     }
 
     private void UpdateGameWinState()
@@ -282,6 +290,12 @@ public class GameManager : MonoBehaviour
 
                 break;
         }
+    }
+
+    //Start game button
+    public void StartGameButton()
+    {
+        ChangeGameState(GameState.Gameplay);
     }
 
 }

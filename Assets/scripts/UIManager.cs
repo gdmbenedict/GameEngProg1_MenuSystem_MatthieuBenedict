@@ -26,6 +26,11 @@ public class UIManager : MonoBehaviour
     public GameObject gameOverScreen;
     public GameObject OptionsMenu;
 
+    private void Awake()
+    {
+        screenState = ScreenState.MainMenu; 
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +43,7 @@ public class UIManager : MonoBehaviour
         
     }
 
-    public void ChangeSceen(ScreenState newScreenState)
+    public void ChangeScreen(ScreenState newScreenState)
     {
         //disables the current screen
         switch (screenState)
@@ -68,11 +73,8 @@ public class UIManager : MonoBehaviour
                 break;
         }
 
-        //sets new screen state
-        screenState = newScreenState;
-
         //enables the new screen
-        switch (screenState)
+        switch (newScreenState)
         {
             case ScreenState.MainMenu:
                 mainMenu.SetActive(true);
@@ -99,6 +101,9 @@ public class UIManager : MonoBehaviour
                 break;
 
         }
+
+        //sets new screen state
+        screenState = newScreenState;
     }
 
     

@@ -30,4 +30,19 @@ public class LevelManager : MonoBehaviour
             return false;
         }
     }
+
+    public void MoveToGameplay()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+
+        if (!scene.name.StartsWith("Gameplay"))
+        {
+            SceneManager.LoadScene("Gameplay_Village");
+        }
+    }
+
+    public void MoveToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 }
