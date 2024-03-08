@@ -41,6 +41,11 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void MoveToEndScreen()
+    {
+        SceneManager.LoadScene("EndScene");
+    }
+
     public void MoveToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");

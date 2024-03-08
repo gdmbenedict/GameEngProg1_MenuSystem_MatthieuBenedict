@@ -293,9 +293,15 @@ public class GameManager : MonoBehaviour
     }
 
     //Start game button
-    public void StartGameButton()
+    public void PlayButton()
     {
         ChangeGameState(GameState.Gameplay);
+    }
+
+    //Returns to MainMenu
+    public void MainMenuButton()
+    {
+        levelManager.MoveToMainMenu();
     }
 
 }
