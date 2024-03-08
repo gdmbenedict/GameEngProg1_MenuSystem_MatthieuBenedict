@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
 
         if (!scene.name.StartsWith("Gameplay"))
         {
-            SceneManager.LoadScene("Gameplay_Village");
+            SceneManager.LoadScene("Gameplay_Village1");
         }
     }
 

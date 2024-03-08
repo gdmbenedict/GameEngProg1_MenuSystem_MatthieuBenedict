@@ -304,4 +304,13 @@ public class GameManager : MonoBehaviour
         levelManager.MoveToMainMenu();
     }
 
+    private void EscapeInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("escape pressed");
+            BackButton();
+        }
+    }
+
 }

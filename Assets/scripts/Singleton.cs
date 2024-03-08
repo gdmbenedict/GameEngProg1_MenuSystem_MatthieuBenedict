@@ -5,12 +5,12 @@ using UnityEngine;
 public class Singleton : MonoBehaviour
 {
 
-    static Singleton instance;
+    public static Singleton instance;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        if (instance != null)
+        if (instance != null && instance!= this)
         {
             Destroy(gameObject);
         }
