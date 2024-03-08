@@ -49,4 +49,9 @@ public class LevelManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName);
     }
+
+    public Vector3 GetSpawnPoint()
+    {
+        return GameObject.Find("SpawnPoint").transform.position;
+    }
 }

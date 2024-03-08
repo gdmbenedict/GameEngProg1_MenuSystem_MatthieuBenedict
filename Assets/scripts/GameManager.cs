@@ -85,12 +85,17 @@ public class GameManager : MonoBehaviour
             //turning on player
             playerSpriteRenderer.enabled = true;
             playerController.enabled = true;
+
+            SpawnPlayer();
         }
         else
         {
             //turning off player
             playerSpriteRenderer.enabled = false;
             playerController.enabled = false;
+
+            //reset player position
+            player.transform.position = Vector3.zero;
         }
     }
 
@@ -272,11 +277,7 @@ public class GameManager : MonoBehaviour
 
     private void EnterGameOverState()
     {
-        //turning off player
-        playerSpriteRenderer.enabled = false;
-        playerController.enabled = false;
-
-        uiManager.ChangeScreen(ScreenState.GameOverScreen);
+        levelManager.ChangeScene("EndScene");
     }
 
     private void UpdateGameOverState()
@@ -291,11 +292,7 @@ public class GameManager : MonoBehaviour
 
     private void EnterGameWinState()
     {
-        //turning off player
-        playerSpriteRenderer.enabled = false;
-        playerController.enabled = false;
-
-        uiManager.ChangeScreen(ScreenState.GameWinScreen);
+        levelManager.ChangeScene("EndScene");
     }
 
     private void UpdateGameWinState()
@@ -407,6 +404,23 @@ public class GameManager : MonoBehaviour
             case GameState.Options:
                 uiManager.ChangeScreen(ScreenState.OptionsMenu);
                 break;
+        }
+    }
+
+    private void SpawnPlayer()
+    {
+        player.transform.position = levelManager.GetSpawnPoint();
+    }
+
+    public void FinishGame(bool win)
+    {
+        if (win)
+        {
+            ChangeGameState(GameState.GameWin);
+        }
+        else
+        {
+            ChangeGameState(GameState.GameOver);
         }
     }
 

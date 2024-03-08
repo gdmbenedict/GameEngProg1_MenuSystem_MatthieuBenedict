@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static GameManager;
 
 public class UIManager : MonoBehaviour
@@ -106,5 +107,4 @@ public class UIManager : MonoBehaviour
         screenState = newScreenState;
     }
 
-    
 }
